@@ -1,19 +1,19 @@
-# Issue tracker: Local Markdown
+# Issue 追踪器：本地 Markdown
 
-Issues and PRDs for this repo live as markdown files in `.scratch/`.
+本仓的 Issue 和 PRD 以 markdown 文件形式存放在 `.scratch/`。
 
-## Conventions
+## 约定
 
-- One feature per directory: `.scratch/<feature-slug>/`
-- The PRD is `.scratch/<feature-slug>/PRD.md`
-- Implementation issues are `.scratch/<feature-slug>/issues/<NN>-<slug>.md`, numbered from `01`
-- Triage state is recorded as a `Status:` line near the top of each issue file (see `triage-labels.md` for the role strings)
-- Comments and conversation history append to the bottom of the file under a `## Comments` heading
+- 每个 feature 一个目录：`.scratch/<feature-slug>/`
+- PRD 是 `.scratch/<feature-slug>/PRD.md`
+- 实现 Issue 是 `.scratch/<feature-slug>/issues/<NN>-<slug>.md`，从 `01` 开始编号
+- 分诊状态记录为每个 Issue 文件顶部附近的 `Status:` 行（角色字符串见 `triage-labels.md`）
+- 评论和对话历史追加到文件底部 `## Comments` 标题之下
 
-## When a skill says "publish to the issue tracker"
+## 当 skill 说"发布到 Issue 追踪器"时
 
-Create a new file under `.scratch/<feature-slug>/` (creating the directory if needed).
+在 `.scratch/<feature-slug>/` 下创建新文件（如目录不存在则创建）。
 
-## When a skill says "fetch the relevant ticket"
+## 当 skill 说"拉取相关 ticket"时
 
-Read the file at the referenced path. The user will normally pass the path or the issue number directly.
+读取所引用路径的文件。用户通常会直接传路径或 Issue 编号。

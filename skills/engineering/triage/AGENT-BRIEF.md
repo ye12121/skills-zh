@@ -1,40 +1,40 @@
-# Writing Agent Briefs
+# 编写 Agent Brief
 
-An agent brief is a structured comment posted on a GitHub issue when it moves to `ready-for-agent`. It is the authoritative specification that an AFK agent will work from. The original issue body and discussion are context — the agent brief is the contract.
+Agent brief 是一条结构化的评论，当 Issue 流转到 `ready-for-agent` 时张贴到 GitHub Issue 上。它是 AFK agent 将依据的权威规格。原始 Issue 正文和讨论是上下文——agent brief 是契约。
 
-## Principles
+## 原则
 
-### Durability over precision
+### 耐用性优先于精确性
 
-The issue may sit in `ready-for-agent` for days or weeks. The codebase will change in the meantime. Write the brief so it stays useful even as files are renamed, moved, or refactored.
+Issue 可能在 `ready-for-agent` 停留数天或数周。期间代码库会变。把 brief 写得即使文件被重命名、移动或重构后仍然有用。
 
-- **Do** describe interfaces, types, and behavioral contracts
-- **Do** name specific types, function signatures, or config shapes that the agent should look for or modify
-- **Don't** reference file paths — they go stale
-- **Don't** reference line numbers
-- **Don't** assume the current implementation structure will remain the same
+- **要** 描述接口、类型和行为契约
+- **要** 命名 agent 应当查找或修改的具体类型、函数签名或配置形状
+- **不要** 引用文件路径——它们会过时
+- **不要** 引用行号
+- **不要** 假设当前实现结构会保持不变
 
-### Behavioral, not procedural
+### 行为式，而非过程式
 
-Describe **what** the system should do, not **how** to implement it. The agent will explore the codebase fresh and make its own implementation decisions.
+描述系统**应当做什么**，而不是**怎么实现**。agent 会重新探索代码库并做出自己的实现决策。
 
-- **Good:** "The `SkillConfig` type should accept an optional `schedule` field of type `CronExpression`"
-- **Bad:** "Open src/types/skill.ts and add a schedule field on line 42"
-- **Good:** "When a user runs `/triage` with no arguments, they should see a summary of issues needing attention"
-- **Bad:** "Add a switch statement in the main handler function"
+- **好：** "`SkillConfig` 类型应接受一个可选的 `schedule` 字段，类型为 `CronExpression`"
+- **差：** "打开 src/types/skill.ts 在第 42 行加一个 schedule 字段"
+- **好：** "用户运行无参数的 `/triage` 时，应看到需要关注的 Issue 摘要"
+- **差：** "在主 handler 函数里加一个 switch 语句"
 
-### Complete acceptance criteria
+### 完整的验收标准
 
-The agent needs to know when it's done. Every agent brief must have concrete, testable acceptance criteria. Each criterion should be independently verifiable.
+agent 需要知道何时完成。每份 agent brief 都必须有具体、可测试的验收标准。每条标准都应独立可验证。
 
-- **Good:** "Running `gh issue list --label needs-triage` returns issues that have been through initial classification"
-- **Bad:** "Triage should work correctly"
+- **好：** "运行 `gh issue list --label needs-triage` 返回经过初步分类的 Issue"
+- **差：** "Triage 应正确工作"
 
-### Explicit scope boundaries
+### 明确的范围边界
 
-State what is out of scope. This prevents the agent from gold-plating or making assumptions about adjacent features.
+陈述什么属于范围外。这能防止 agent 镀金或对相邻功能做假设。
 
-## Template
+## 模板
 
 ```markdown
 ## Agent Brief
@@ -65,9 +65,9 @@ Be specific about edge cases and error conditions.
 - Adjacent feature that might seem related but is separate
 ```
 
-## Examples
+## 示例
 
-### Good agent brief (bug)
+### 好的 agent brief（bug）
 
 ```markdown
 ## Agent Brief
@@ -102,7 +102,7 @@ and append "..." to indicate truncation.
 - Multi-line description support
 ```
 
-### Good agent brief (enhancement)
+### 好的 agent brief（enhancement）
 
 ```markdown
 ## Agent Brief
@@ -143,7 +143,7 @@ checked for matches.
 - Bug reports (only enhancement rejections go to `.out-of-scope/`)
 ```
 
-### Bad agent brief
+### 差的 agent brief
 
 ```markdown
 ## Agent Brief
@@ -159,10 +159,10 @@ The function around line 150 has the issue.
 - src/types.ts (line 42)
 ```
 
-This is bad because:
-- No category
-- Vague description ("the triage thing is broken")
-- References file paths and line numbers that will go stale
-- No acceptance criteria
-- No scope boundaries
-- No description of current vs desired behavior
+这份很差，因为：
+- 没有 category
+- 描述含糊（"the triage thing is broken"）
+- 引用了会过时的文件路径和行号
+- 没有验收标准
+- 没有范围边界
+- 没有描述当前与期望行为

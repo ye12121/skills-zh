@@ -1,29 +1,29 @@
 ---
 name: design-an-interface
-description: Generate multiple radically different interface designs for a module using parallel sub-agents. Use when user wants to design an API, explore interface options, compare module shapes, or mentions "design it twice".
+description: 使用并行子 agent 为某个模块生成多个截然不同的接口设计。当用户希望设计 API、探索接口选项、比较模块形态，或提到 "design it twice" 时使用。 / Generate multiple radically different interface designs for a module using parallel sub-agents. Use when user wants to design an API, explore interface options, compare module shapes, or mentions "design it twice".
 ---
 
-# Design an Interface
+# 接口设计
 
-Based on "Design It Twice" from "A Philosophy of Software Design": your first idea is unlikely to be the best. Generate multiple radically different designs, then compare.
+灵感来自《A Philosophy of Software Design》中的 "Design It Twice"：你的第一个想法不太可能是最佳方案。先生成多个截然不同的设计，再进行比较。
 
-## Workflow
+## 工作流程
 
-### 1. Gather Requirements
+### 1. 收集需求
 
-Before designing, understand:
+在开始设计之前，理解：
 
-- [ ] What problem does this module solve?
-- [ ] Who are the callers? (other modules, external users, tests)
-- [ ] What are the key operations?
-- [ ] Any constraints? (performance, compatibility, existing patterns)
-- [ ] What should be hidden inside vs exposed?
+- [ ] 这个模块要解决什么问题？
+- [ ] 谁是调用方？（其他模块、外部用户、测试）
+- [ ] 关键操作有哪些？
+- [ ] 是否存在约束？（性能、兼容性、既有模式）
+- [ ] 哪些应该隐藏在内部，哪些应该暴露出来？
 
-Ask: "What does this module need to do? Who will use it?"
+询问："这个模块需要做什么？谁会使用它？"
 
-### 2. Generate Designs (Parallel Sub-Agents)
+### 2. 生成设计（并行子 agent）
 
-Spawn 3+ sub-agents simultaneously using Task tool. Each must produce a **radically different** approach.
+使用 Task 工具同时派出 3 个以上的子 agent。每个都必须产出**截然不同**的方案。
 
 ```
 Prompt template for each sub-agent:
@@ -45,50 +45,50 @@ Output format:
 4. Trade-offs of this approach
 ```
 
-### 3. Present Designs
+### 3. 展示设计
 
-Show each design with:
+对每个设计展示：
 
-1. **Interface signature** - types, methods, params
-2. **Usage examples** - how callers actually use it in practice
-3. **What it hides** - complexity kept internal
+1. **接口签名** —— 类型、方法、参数
+2. **使用示例** —— 调用方在实际中如何使用
+3. **它隐藏了什么** —— 保留在内部的复杂性
 
-Present designs sequentially so user can absorb each approach before comparison.
+依次展示设计，让用户在比较之前能够吸收每个方案。
 
-### 4. Compare Designs
+### 4. 比较设计
 
-After showing all designs, compare them on:
+展示完所有设计后，从以下维度进行比较：
 
-- **Interface simplicity**: fewer methods, simpler params
-- **General-purpose vs specialized**: flexibility vs focus
-- **Implementation efficiency**: does shape allow efficient internals?
-- **Depth**: small interface hiding significant complexity (good) vs large interface with thin implementation (bad)
-- **Ease of correct use** vs **ease of misuse**
+- **接口简洁性**：方法更少、参数更简单
+- **通用 vs 专用**：灵活性 vs 聚焦
+- **实现效率**：这种形态是否允许高效的内部实现？
+- **深度**：小接口隐藏巨大复杂性（好） vs 大接口配薄实现（差）
+- **易于正确使用** vs **易于误用**
 
-Discuss trade-offs in prose, not tables. Highlight where designs diverge most.
+用文字而非表格讨论权衡。突出设计差异最大的地方。
 
-### 5. Synthesize
+### 5. 综合
 
-Often the best design combines insights from multiple options. Ask:
+往往最好的设计会融合多个方案的洞见。询问：
 
-- "Which design best fits your primary use case?"
-- "Any elements from other designs worth incorporating?"
+- "哪个设计最适合你的主要使用场景？"
+- "其他设计中是否有值得借鉴的元素？"
 
-## Evaluation Criteria
+## 评估标准
 
-From "A Philosophy of Software Design":
+来自《A Philosophy of Software Design》：
 
-**Interface simplicity**: Fewer methods, simpler params = easier to learn and use correctly.
+**接口简洁性**：方法更少、参数更简单 = 更容易学习并正确使用。
 
-**General-purpose**: Can handle future use cases without changes. But beware over-generalization.
+**通用性**：能够在不修改的情况下应对未来的使用场景。但要警惕过度泛化。
 
-**Implementation efficiency**: Does interface shape allow efficient implementation? Or force awkward internals?
+**实现效率**：接口形态是否允许高效的实现？还是会强制出别扭的内部结构？
 
-**Depth**: Small interface hiding significant complexity = deep module (good). Large interface with thin implementation = shallow module (avoid).
+**深度**：小接口隐藏巨大复杂性 = 深模块（好）。大接口配薄实现 = 浅模块（避免）。
 
-## Anti-Patterns
+## 反模式
 
-- Don't let sub-agents produce similar designs - enforce radical difference
-- Don't skip comparison - the value is in contrast
-- Don't implement - this is purely about interface shape
-- Don't evaluate based on implementation effort
+- 不要让子 agent 产出相似的设计——强制其产生根本性差异
+- 不要跳过比较——价值就在对比之中
+- 不要去实现——这纯粹是关于接口形态
+- 不要根据实现工作量来评估

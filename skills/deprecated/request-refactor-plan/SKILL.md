@@ -1,25 +1,25 @@
 ---
 name: request-refactor-plan
-description: Create a detailed refactor plan with tiny commits via user interview, then file it as a GitHub issue. Use when user wants to plan a refactor, create a refactoring RFC, or break a refactor into safe incremental steps.
+description: 通过用户访谈创建一份带有微小提交的详细重构计划，然后归档为 GitHub Issue。当用户希望规划一次重构、创建重构 RFC，或把一次重构拆分成安全的增量步骤时使用。 / Create a detailed refactor plan with tiny commits via user interview, then file it as a GitHub issue. Use when user wants to plan a refactor, create a refactoring RFC, or break a refactor into safe incremental steps.
 ---
 
-This skill will be invoked when the user wants to create a refactor request. You should go through the steps below. You may skip steps if you don't consider them necessary.
+当用户想创建一份重构请求时，将调用此 skill。你应当走完下方步骤。如果某些步骤你认为不必要，可以跳过。
 
-1. Ask the user for a long, detailed description of the problem they want to solve and any potential ideas for solutions.
+1. 让用户给出一段长而详细的问题描述，以及任何潜在的解决方案想法。
 
-2. Explore the repo to verify their assertions and understand the current state of the codebase.
+2. 探索仓库以验证他们的断言并理解代码库当前状态。
 
-3. Ask whether they have considered other options, and present other options to them.
+3. 询问他们是否考虑过其他选项，并向他们呈现其他选项。
 
-4. Interview the user about the implementation. Be extremely detailed and thorough.
+4. 就实现细节访谈用户。极尽详尽彻底。
 
-5. Hammer out the exact scope of the implementation. Work out what you plan to change and what you plan not to change.
+5. 把实现的确切范围敲定下来。理清你计划改什么、不打算改什么。
 
-6. Look in the codebase to check for test coverage of this area of the codebase. If there is insufficient test coverage, ask the user what their plans for testing are.
+6. 查看代码库以检查该区域的测试覆盖。如果测试覆盖不足，问用户对测试的计划是什么。
 
-7. Break the implementation into a plan of tiny commits. Remember Martin Fowler's advice to "make each refactoring step as small as possible, so that you can always see the program working."
+7. 把实现拆成一份微小提交的计划。记住 Martin Fowler 的建议："make each refactoring step as small as possible, so that you can always see the program working."
 
-8. Create a GitHub issue with the refactor plan. Use the following template for the issue description:
+8. 用重构计划创建一个 GitHub Issue。Issue 描述使用以下模板：
 
 <refactor-plan-template>
 

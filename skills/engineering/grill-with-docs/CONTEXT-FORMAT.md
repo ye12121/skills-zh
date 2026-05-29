@@ -1,6 +1,6 @@
-# CONTEXT.md Format
+# CONTEXT.md 格式
 
-## Structure
+## 结构
 
 ```md
 # {Context Name}
@@ -22,21 +22,21 @@ A person or organization that places orders.
 _Avoid_: Client, buyer, account
 ```
 
-## Rules
+## 规则
 
-- **Be opinionated.** When multiple words exist for the same concept, pick the best one and list the others as aliases to avoid.
-- **Flag conflicts explicitly.** If a term is used ambiguously, call it out in "Flagged ambiguities" with a clear resolution.
-- **Keep definitions tight.** One or two sentences max. Define what it IS, not what it does.
-- **Show relationships.** Use bold term names and express cardinality where obvious.
-- **Only include terms specific to this project's context.** General programming concepts (timeouts, error types, utility patterns) don't belong even if the project uses them extensively. Before adding a term, ask: is this a concept unique to this context, or a general programming concept? Only the former belongs.
-- **Group terms under subheadings** when natural clusters emerge. If all terms belong to a single cohesive area, a flat list is fine.
-- **Write an example dialogue.** A conversation between a dev and a domain expert that demonstrates how the terms interact naturally and clarifies boundaries between related concepts.
+- **要有主张。** 同一个概念有多个词时，挑最好的那一个，把其余作为应避免的别名列出。
+- **明确标记冲突。** 如果一个术语用得含糊，在"Flagged ambiguities"中点出来并给出清晰的解决方案。
+- **定义要紧凑。** 最多一到两句。定义它**是**什么，而不是它做什么。
+- **展示关系。** 用粗体术语名，并在显而易见处表达基数。
+- **只包含该项目上下文专属的术语。** 通用编程概念（超时、错误类型、工具模式）即使项目大量使用也不属于这里。添加术语前问：这是这个上下文独有的概念，还是通用编程概念？只有前者属于这里。
+- **当出现自然聚类时用子标题分组**。如果所有术语属于单一连贯的领域，扁平列表也行。
+- **写一段示例对话。** 一段开发者与领域专家之间的对话，演示术语如何自然地交互，并澄清相关概念之间的边界。
 
-## Single vs multi-context repos
+## 单上下文 vs 多上下文仓库
 
-**Single context (most repos):** One `CONTEXT.md` at the repo root.
+**单上下文（多数仓库）：** 仓库根目录一个 `CONTEXT.md`。
 
-**Multiple contexts:** A `CONTEXT-MAP.md` at the repo root lists the contexts, where they live, and how they relate to each other:
+**多上下文：** 仓库根目录的 `CONTEXT-MAP.md` 列出各上下文、它们在哪里以及彼此如何关联：
 
 ```md
 # Context Map
@@ -54,10 +54,10 @@ _Avoid_: Client, buyer, account
 - **Ordering ↔ Billing**: Shared types for `CustomerId` and `Money`
 ```
 
-The skill infers which structure applies:
+skill 推断该应用哪种结构：
 
-- If `CONTEXT-MAP.md` exists, read it to find contexts
-- If only a root `CONTEXT.md` exists, single context
-- If neither exists, create a root `CONTEXT.md` lazily when the first term is resolved
+- 如果 `CONTEXT-MAP.md` 存在，读它以找到各上下文
+- 如果只存在根 `CONTEXT.md`，单上下文
+- 如果都不存在，第一个术语被解析时再懒创建一个根 `CONTEXT.md`
 
-When multiple contexts exist, infer which one the current topic relates to. If unclear, ask.
+存在多个上下文时，推断当前话题与哪个相关。不清楚就问。

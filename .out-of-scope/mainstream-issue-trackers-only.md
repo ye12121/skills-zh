@@ -1,25 +1,25 @@
-# Issue tracker integrations are limited to mainstream tools
+# Issue 追踪器集成仅限主流工具
 
-`setup-matt-pocock-skills` only offers first-class support for **mainstream** issue trackers. Requests to add support for niche, new, or single-vendor experimental trackers are out of scope.
+`setup-matt-pocock-skills` 仅对**主流** Issue 追踪器提供一等支持。要求添加对小众、新生或单一厂商实验性追踪器支持的请求超出范围。
 
-## Why this is out of scope
+## 为什么这超出范围
 
-Every issue-tracker backend hard-codes a CLI shape into the skills (commands, flags, output parsing). Each new backend is permanent maintenance surface — it has to keep working as the tool's CLI evolves, and it has to keep being tested against `/to-prd`, `/to-issues`, `/triage`, and friends. That cost is only worth paying for trackers a meaningful fraction of users actually have.
+每个 Issue 追踪器后端都会将一种 CLI 形态硬编码到 skills 中（命令、标志、输出解析）。每新增一个后端都是永久的维护面——它必须随着该工具 CLI 的演进继续工作，并且必须持续针对 `/to-prd`、`/to-issues`、`/triage` 等进行测试。这种成本只有在追踪器为有意义比例的用户实际拥有时才值得付出。
 
-"Mainstream" is a judgment call, not a numeric bar:
+"主流"是一种判断，而不是数字门槛：
 
-- GitHub, GitLab, and Backlog.md are the kind of tools we'd consider mainstream — broadly known, widely used, well past the experimental phase.
-- A brand-new agent-focused tool with a few hundred GitHub stars is not, no matter how interesting the design.
+- GitHub、GitLab 和 Backlog.md 是我们会认为属于主流的那类工具——广为人知、广泛使用、远远超出实验阶段。
+- 一个全新的、面向 agent 的工具，只有几百个 GitHub stars，无论设计多么有趣，都不算。
 
-Stars, age, and download counts are useful signals when making the call but none of them is the rule. The rule is: would a typical engineer recognise this tool and have plausibly chosen it for their team?
+Stars、年龄和下载量是做判断时有用的信号，但没有一个是规则。规则是：一位典型工程师会认出这个工具，并合理地为他们的团队选择它吗？
 
-The escape hatches for non-mainstream trackers already exist:
+非主流追踪器的逃生口已经存在：
 
-- `local markdown` for lightweight in-repo tracking.
-- `other/custom` for users who want to wire something up themselves.
+- `local markdown` 用于轻量级的仓库内追踪。
+- `other/custom` 用于想自己接线的用户。
 
-Neither requires the core skills to know about the specific tool.
+二者都不需要核心 skills 知道具体工具。
 
-## Prior requests
+## 既往请求
 
-- #99 — "Add dex as an issue tracker backend" (dex was ~3 months old and ~300 stars at the time of the request)
+- #99 — "Add dex as an issue tracker backend"（请求发出时 dex 大约 3 个月大、约 300 stars）

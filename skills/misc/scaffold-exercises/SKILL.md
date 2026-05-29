@@ -1,37 +1,37 @@
 ---
 name: scaffold-exercises
-description: Create exercise directory structures with sections, problems, solutions, and explainers that pass linting. Use when user wants to scaffold exercises, create exercise stubs, or set up a new course section.
+description: 创建包含小节、问题、解答和讲解的练习目录结构，并通过 lint 检查。当用户希望搭建练习脚手架、创建练习占位或新开课程小节时使用。 / Create exercise directory structures with sections, problems, solutions, and explainers that pass linting. Use when user wants to scaffold exercises, create exercise stubs, or set up a new course section.
 ---
 
-# Scaffold Exercises
+# 搭建练习脚手架
 
-Create exercise directory structures that pass `pnpm ai-hero-cli internal lint`, then commit with `git commit`.
+创建可通过 `pnpm ai-hero-cli internal lint` 的练习目录结构，然后使用 `git commit` 提交。
 
-## Directory naming
+## 目录命名
 
-- **Sections**: `XX-section-name/` inside `exercises/` (e.g., `01-retrieval-skill-building`)
-- **Exercises**: `XX.YY-exercise-name/` inside a section (e.g., `01.03-retrieval-with-bm25`)
-- Section number = `XX`, exercise number = `XX.YY`
-- Names are dash-case (lowercase, hyphens)
+- **小节（Sections）**：放在 `exercises/` 下，命名为 `XX-section-name/`（例如 `01-retrieval-skill-building`）
+- **练习（Exercises）**：放在某个小节下，命名为 `XX.YY-exercise-name/`（例如 `01.03-retrieval-with-bm25`）
+- 小节编号 = `XX`，练习编号 = `XX.YY`
+- 命名采用 dash-case（小写，使用连字符）
 
-## Exercise variants
+## 练习变体
 
-Each exercise needs at least one of these subfolders:
+每个练习至少需要以下子文件夹中的一个：
 
-- `problem/` - student workspace with TODOs
-- `solution/` - reference implementation
-- `explainer/` - conceptual material, no TODOs
+- `problem/` —— 学生工作区，包含 TODO
+- `solution/` —— 参考实现
+- `explainer/` —— 概念性材料，不含 TODO
 
-When stubbing, default to `explainer/` unless the plan specifies otherwise.
+搭建占位时，除非计划另有说明，否则默认创建 `explainer/`。
 
-## Required files
+## 必需文件
 
-Each subfolder (`problem/`, `solution/`, `explainer/`) needs a `readme.md` that:
+每个子文件夹（`problem/`、`solution/`、`explainer/`）都需要一个 `readme.md`，要求：
 
-- Is **not empty** (must have real content, even a single title line works)
-- Has no broken links
+- **不能为空**（必须有真实内容，哪怕只有一行标题）
+- 没有失效的链接
 
-When stubbing, create a minimal readme with a title and a description:
+搭建占位时，创建一个只包含标题和描述的最小 readme：
 
 ```md
 # Exercise Title
@@ -39,46 +39,46 @@ When stubbing, create a minimal readme with a title and a description:
 Description here
 ```
 
-If the subfolder has code, it also needs a `main.ts` (>1 line). But for stubs, a readme-only exercise is fine.
+如果子文件夹中有代码，还需要一个 `main.ts`（> 1 行）。但对于占位来说，只有 readme 的练习也是可以接受的。
 
-## Workflow
+## 工作流程
 
-1. **Parse the plan** - extract section names, exercise names, and variant types
-2. **Create directories** - `mkdir -p` for each path
-3. **Create stub readmes** - one `readme.md` per variant folder with a title
-4. **Run lint** - `pnpm ai-hero-cli internal lint` to validate
-5. **Fix any errors** - iterate until lint passes
+1. **解析计划** —— 提取小节名、练习名和变体类型
+2. **创建目录** —— 对每个路径执行 `mkdir -p`
+3. **创建占位 readme** —— 每个变体文件夹一个带标题的 `readme.md`
+4. **运行 lint** —— `pnpm ai-hero-cli internal lint` 进行校验
+5. **修复所有错误** —— 迭代直至 lint 通过
 
-## Lint rules summary
+## Lint 规则汇总
 
-The linter (`pnpm ai-hero-cli internal lint`) checks:
+linter（`pnpm ai-hero-cli internal lint`）会检查：
 
-- Each exercise has subfolders (`problem/`, `solution/`, `explainer/`)
-- At least one of `problem/`, `explainer/`, or `explainer.1/` exists
-- `readme.md` exists and is non-empty in the primary subfolder
-- No `.gitkeep` files
-- No `speaker-notes.md` files
-- No broken links in readmes
-- No `pnpm run exercise` commands in readmes
-- `main.ts` required per subfolder unless it's readme-only
+- 每个练习都有子文件夹（`problem/`、`solution/`、`explainer/`）
+- `problem/`、`explainer/` 或 `explainer.1/` 中至少存在一个
+- 主子文件夹中存在非空的 `readme.md`
+- 不存在 `.gitkeep` 文件
+- 不存在 `speaker-notes.md` 文件
+- readme 中没有失效的链接
+- readme 中没有 `pnpm run exercise` 命令
+- 除非是仅含 readme 的子文件夹，否则每个子文件夹都需要 `main.ts`
 
-## Moving/renaming exercises
+## 移动/重命名练习
 
-When renumbering or moving exercises:
+在重新编号或移动练习时：
 
-1. Use `git mv` (not `mv`) to rename directories - preserves git history
-2. Update the numeric prefix to maintain order
-3. Re-run lint after moves
+1. 使用 `git mv`（而非 `mv`）重命名目录，以保留 git 历史
+2. 更新数字前缀以保持顺序
+3. 移动后重新运行 lint
 
-Example:
+示例：
 
 ```bash
 git mv exercises/01-retrieval/01.03-embeddings exercises/01-retrieval/01.04-embeddings
 ```
 
-## Example: stubbing from a plan
+## 示例：从计划搭建脚手架
 
-Given a plan like:
+给定如下计划：
 
 ```
 Section 05: Memory Skill Building
@@ -87,7 +87,7 @@ Section 05: Memory Skill Building
 - 05.03 Long-term Memory
 ```
 
-Create:
+创建：
 
 ```bash
 mkdir -p exercises/05-memory-skill-building/05.01-introduction-to-memory/explainer
@@ -95,7 +95,7 @@ mkdir -p exercises/05-memory-skill-building/05.02-short-term-memory/{explainer,p
 mkdir -p exercises/05-memory-skill-building/05.03-long-term-memory/explainer
 ```
 
-Then create readme stubs:
+然后创建 readme 占位：
 
 ```
 exercises/05-memory-skill-building/05.01-introduction-to-memory/explainer/readme.md -> "# Introduction to Memory"

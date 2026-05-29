@@ -1,44 +1,44 @@
 ---
 name: git-guardrails-claude-code
-description: Set up Claude Code hooks to block dangerous git commands (push, reset --hard, clean, branch -D, etc.) before they execute. Use when user wants to prevent destructive git operations, add git safety hooks, or block git push/reset in Claude Code.
+description: 配置 Claude Code 钩子，在执行前拦截危险的 git 命令（push、reset --hard、clean、branch -D 等）。当用户希望阻止破坏性 git 操作、添加 git 安全钩子或在 Claude Code 中屏蔽 git push/reset 时使用。 / Set up Claude Code hooks to block dangerous git commands (push, reset --hard, clean, branch -D, etc.) before they execute. Use when user wants to prevent destructive git operations, add git safety hooks, or block git push/reset in Claude Code.
 ---
 
-# Setup Git Guardrails
+# 配置 Git 护栏
 
-Sets up a PreToolUse hook that intercepts and blocks dangerous git commands before Claude executes them.
+配置一个 PreToolUse 钩子，在 Claude 执行危险 git 命令之前拦截并阻止它们。
 
-## What Gets Blocked
+## 被阻止的命令
 
-- `git push` (all variants including `--force`)
+- `git push`（包括 `--force` 在内的所有变体）
 - `git reset --hard`
 - `git clean -f` / `git clean -fd`
 - `git branch -D`
 - `git checkout .` / `git restore .`
 
-When blocked, Claude sees a message telling it that it does not have authority to access these commands.
+被阻止时，Claude 会收到一条消息，告知其无权访问这些命令。
 
-## Steps
+## 步骤
 
-### 1. Ask scope
+### 1. 询问范围
 
-Ask the user: install for **this project only** (`.claude/settings.json`) or **all projects** (`~/.claude/settings.json`)?
+询问用户：是仅为**当前项目**安装（`.claude/settings.json`），还是为**所有项目**安装（`~/.claude/settings.json`）？
 
-### 2. Copy the hook script
+### 2. 复制钩子脚本
 
-The bundled script is at: [scripts/block-dangerous-git.sh](scripts/block-dangerous-git.sh)
+随附的脚本位于：[scripts/block-dangerous-git.sh](scripts/block-dangerous-git.sh)
 
-Copy it to the target location based on scope:
+根据范围将其复制到目标位置：
 
-- **Project**: `.claude/hooks/block-dangerous-git.sh`
-- **Global**: `~/.claude/hooks/block-dangerous-git.sh`
+- **项目级**：`.claude/hooks/block-dangerous-git.sh`
+- **全局**：`~/.claude/hooks/block-dangerous-git.sh`
 
-Make it executable with `chmod +x`.
+使用 `chmod +x` 赋予可执行权限。
 
-### 3. Add hook to settings
+### 3. 在 settings 中添加钩子
 
-Add to the appropriate settings file:
+添加到对应的 settings 文件：
 
-**Project** (`.claude/settings.json`):
+**项目级**（`.claude/settings.json`）：
 
 ```json
 {
@@ -58,7 +58,7 @@ Add to the appropriate settings file:
 }
 ```
 
-**Global** (`~/.claude/settings.json`):
+**全局**（`~/.claude/settings.json`）：
 
 ```json
 {
@@ -78,18 +78,18 @@ Add to the appropriate settings file:
 }
 ```
 
-If the settings file already exists, merge the hook into existing `hooks.PreToolUse` array — don't overwrite other settings.
+如果 settings 文件已存在，请将钩子合并到已有的 `hooks.PreToolUse` 数组中——不要覆盖其他设置。
 
-### 4. Ask about customization
+### 4. 询问是否定制
 
-Ask if user wants to add or remove any patterns from the blocked list. Edit the copied script accordingly.
+询问用户是否希望在被阻止列表中添加或移除某些模式。相应地编辑复制的脚本。
 
-### 5. Verify
+### 5. 验证
 
-Run a quick test:
+运行一次快速测试：
 
 ```bash
 echo '{"tool_input":{"command":"git push origin main"}}' | <path-to-script>
 ```
 
-Should exit with code 2 and print a BLOCKED message to stderr.
+应当以退出码 2 结束，并向 stderr 打印 BLOCKED 消息。
