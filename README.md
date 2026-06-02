@@ -130,6 +130,68 @@
 
 软件工程基本功比以往任何时候都更重要。这些 skills 是我将这些基本功凝炼为可重复实践的最大努力，帮你交付职业生涯中最好的应用。享受。
 
+## 如何使用这些 Skills
+
+这些 skill 不是孤立的工具，而是设计成**一条流水线**——围绕"修复 agent 四种常见失败模式"逐环相扣。下面是推荐的使用方式。
+
+### 推荐工作流
+
+```
+① setup-matt-pocock-skills        ← 每个仓库只跑一次（前置依赖）
+        │
+② grill-me / grill-with-docs      ← 动手前先对齐需求、磨术语
+        │
+③ to-prd → to-issues               ← 把对齐结果变成 PRD 和可认领的 Issue
+        │
+④ tdd / diagnose                   ← 用红-绿-重构和诊断循环真正写代码 / 修 bug
+        │
+⑤ zoom-out / improve-codebase-architecture ← 持续维护设计健康
+```
+
+两条最重要的原则：
+
+- **第 ① 步是硬前置。** [`setup-matt-pocock-skills`](./skills/engineering/setup-matt-pocock-skills/SKILL.md) 会在 `CLAUDE.md` 写入 `## Agent skills` 块、建立 `docs/agents/`，告诉其余 skill：本仓库用什么 Issue 追踪器、分诊标签词汇、领域文档放在哪里。它特意禁用了模型自动调用，**必须你手动运行 `/setup-matt-pocock-skills` 触发**。不跑它，`to-issues` / `to-prd` / `triage` / `diagnose` / `tdd` 等都会缺少上下文。
+- **开工前先盘问。** [`grill-with-docs`](./skills/engineering/grill-with-docs/SKILL.md) / [`grill-me`](./skills/productivity/grill-me/SKILL.md) 是作者最受欢迎的 skill——在你想做任何变更时**每次都用**，用来弥补你和 agent 之间的沟通鸿沟。
+
+### 分场景速查
+
+**Engineering（每天写代码）**
+
+| 什么时候 | 用哪个 |
+|---|---|
+| 新仓库第一次接入 | [`setup-matt-pocock-skills`](./skills/engineering/setup-matt-pocock-skills/SKILL.md)（手动，仅一次）|
+| 开工前对齐需求 | [`grill-me`](./skills/productivity/grill-me/SKILL.md)（非代码）/ [`grill-with-docs`](./skills/engineering/grill-with-docs/SKILL.md)（代码，并更新 CONTEXT.md + ADR）|
+| 把讨论变成文档 / 工单 | [`to-prd`](./skills/engineering/to-prd/SKILL.md) → [`to-issues`](./skills/engineering/to-issues/SKILL.md) |
+| 写功能 / 修 bug | [`tdd`](./skills/engineering/tdd/SKILL.md)（测试先行）/ [`diagnose`](./skills/engineering/diagnose/SKILL.md)（疑难 bug 诊断循环）|
+| 看不懂一段代码 | [`zoom-out`](./skills/engineering/zoom-out/SKILL.md) |
+| 代码库变乱了 | [`improve-codebase-architecture`](./skills/engineering/improve-codebase-architecture/SKILL.md)（建议每隔几天跑一次）|
+| 管理 Issue | [`triage`](./skills/engineering/triage/SKILL.md) |
+| 探索设计方案 | [`prototype`](./skills/engineering/prototype/SKILL.md)（一次性原型）|
+
+**Productivity（通用，不限于代码）**
+
+- [`handoff`](./skills/productivity/handoff/SKILL.md) — 把当前对话压缩成交接文档，方便换一个 agent 接着干。
+- [`caveman`](./skills/productivity/caveman/SKILL.md) — 压缩沟通模式，省约 75% token 而不损失技术准确性。
+- [`write-a-skill`](./skills/productivity/write-a-skill/SKILL.md) — 按本仓规范创建新的 skill。
+- [`grill-me`](./skills/productivity/grill-me/SKILL.md) — 非代码场景的盘问环节。
+
+**Misc（按需）**
+
+- [`setup-pre-commit`](./skills/misc/setup-pre-commit/SKILL.md) — Husky + lint-staged + 类型检查 + 测试。
+- [`git-guardrails-claude-code`](./skills/misc/git-guardrails-claude-code/SKILL.md) — 拦截危险 git 命令。
+- [`limit-commit-size`](./skills/misc/limit-commit-size/SKILL.md) — 限制每次 commit / push 的改动行数。
+- [`migrate-to-shoehorn`](./skills/misc/migrate-to-shoehorn/SKILL.md)、[`scaffold-exercises`](./skills/misc/scaffold-exercises/SKILL.md) — 特定场景工具。
+
+> `personal/`、`in-progress/`、`deprecated/` 三类不建议依赖：分别绑定作者个人设置、尚未完成、已废弃。
+
+### 一个典型的完整闭环
+
+1. 新项目里手动运行 `/setup-matt-pocock-skills`（仅一次）。
+2. 用 `grill-with-docs` 就要做的变更对齐需求、沉淀术语。
+3. `to-prd` 生成 PRD，再用 `to-issues` 拆成可认领的 Issue。
+4. 用 `tdd` 一个纵向切片一个切片地实现；卡住时用 `diagnose`。
+5. 阶段性运行 `improve-codebase-architecture` 做架构体检。
+
 ## 参考
 
 ### Engineering
