@@ -12,22 +12,22 @@
 如果你想了解这些 skills 的更新，以及我创建的任何新 skills，可以加入约 6 万其他开发者订阅我的 newsletter：
 
 
-~~## 快速开始（30 秒安装）
+~~## 快速开始（30 秒安装）~~
 
-1. 运行 skills.sh 安装器：
+~~1. 运行 skills.sh 安装器：~~
 
-```bash
-npx skills@latest add mattpocock/skills
-```
+~~```bash~~
+~~npx skills@latest add mattpocock/skills~~
+~~```~~
 
-2. 挑选你想要的 skills，以及你想把它们安装到哪些编码 agent 上。**确保选择 `/setup-matt-pocock-skills`**。
+~~2. 挑选你想要的 skills，以及你想把它们安装到哪些编码 agent 上。**确保选择 `/setup-matt-pocock-skills`**。~~
 
-3. 在你的 agent 中运行 `/setup-matt-pocock-skills`。它会：
-   - 询问你想使用哪个 Issue 追踪器（GitHub、Linear，或本地文件）
-   - 询问你做分诊（triage）时给工单打什么标签（`/triage` 使用标签）
-   - 询问你想把我们创建的任何文档保存到哪里
+~~3. 在你的 agent 中运行 `/setup-matt-pocock-skills`。它会：~~
+~~- 询问你想使用哪个 Issue 追踪器（GitHub、Linear，或本地文件）~~
+~~- 询问你做分诊（triage）时给工单打什么标签（`/triage` 使用标签）~~
+~~- 询问你想把我们创建的任何文档保存到哪里~~
 
-4. 搞定——准备就绪。~~
+~~4. 搞定——准备就绪。~~
 
 ## 为什么有这些 Skills
 
