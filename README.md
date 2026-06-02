@@ -12,7 +12,7 @@
 如果你想了解这些 skills 的更新，以及我创建的任何新 skills，可以加入约 6 万其他开发者订阅我的 newsletter：
 
 
-## 快速开始（30 秒安装）
+~~## 快速开始（30 秒安装）
 
 1. 运行 skills.sh 安装器：
 
@@ -27,7 +27,7 @@ npx skills@latest add mattpocock/skills
    - 询问你做分诊（triage）时给工单打什么标签（`/triage` 使用标签）
    - 询问你想把我们创建的任何文档保存到哪里
 
-4. 搞定——准备就绪。
+4. 搞定——准备就绪。~~
 
 ## 为什么有这些 Skills
 
