@@ -12,22 +12,52 @@
 如果你想了解这些 skills 的更新，以及我创建的任何新 skills，可以加入约 6 万其他开发者订阅我的 newsletter：
 
 
-~~## 快速开始（30 秒安装）~~
+## 安装
 
-~~1. 运行 skills.sh 安装器：~~
+每个 skill 就是一个含 `SKILL.md` 的文件夹，遵循跨工具的 [Agent Skills](https://agentskills.io) 开放标准——Claude Code、Codex 等都能识别。装好后用 `/<skill 名>` 触发，或让 agent 根据描述自动调用。
 
-~~```bash~~
-~~npx skills@latest add mattpocock/skills~~
-~~```~~
+### 方式一：skills.sh 安装器（跨 agent，最省事）
 
-~~2. 挑选你想要的 skills，以及你想把它们安装到哪些编码 agent 上。**确保选择 `/setup-matt-pocock-skills`**。~~
+它会自动探测你装了哪些编码 agent，并把 skill 放到各自正确的目录：
 
-~~3. 在你的 agent 中运行 `/setup-matt-pocock-skills`。它会：~~
-~~- 询问你想使用哪个 Issue 追踪器（GitHub、Linear，或本地文件）~~
-~~- 询问你做分诊（triage）时给工单打什么标签（`/triage` 使用标签）~~
-~~- 询问你想把我们创建的任何文档保存到哪里~~
+```bash
+npx skills@latest add ye12121/skills-zh
+```
 
-~~4. 搞定——准备就绪。~~
+按提示勾选要装的 skill 和目标 agent 即可。
+
+### 方式二：手动安装到 Claude Code
+
+把想要的 skill 文件夹复制到 skills 目录：
+
+```bash
+# 全局（所有项目可用）
+cp -r skills/misc/limit-commit-size ~/.claude/skills/limit-commit-size
+
+# 或仅某个项目
+cp -r skills/misc/limit-commit-size /path/to/your-project/.claude/skills/limit-commit-size
+```
+
+之后在 Claude Code 里输入 `/limit-commit-size` 触发（换文件夹路径即可安装其它 skill）。
+
+### 方式三：手动安装到 Codex
+
+Codex 从 `.agents/skills/` 读取 skill，复制方式相同：
+
+```bash
+# 全局（用户级）
+cp -r skills/misc/limit-commit-size ~/.agents/skills/limit-commit-size
+
+# 或仅当前仓库
+cp -r skills/misc/limit-commit-size .agents/skills/limit-commit-size
+```
+
+在 Codex 里用 `/skills` 选择，或在 prompt 中用 `$` 提及；任务匹配描述时也会被自动调用。改动 skill 后若没生效，重启 Codex。
+
+### 安装后必做
+
+- **先手动运行一次 `/setup-matt-pocock-skills`**（每个仓库一次）。它会写好 `CLAUDE.md` / `AGENTS.md` 里的 `## Agent skills` 块和 `docs/agents/`，告诉其余 skill 本仓库的 Issue 追踪器、分诊标签和领域文档布局。不跑它，`to-issues` / `to-prd` / `triage` / `diagnose` / `tdd` 等会缺上下文。
+- **`limit-commit-size` 还需另装 git 钩子**才能对所有 commit/push（含手动）生效——skill 装好只让 agent 知道"该怎么做"，真正的拦截靠 git 钩子。在目标仓库执行 `git config core.hooksPath .githooks`（或把钩子拷到 `.git/hooks`），详见该 skill 的 `SKILL.md`。
 
 ## 为什么有这些 Skills
 
