@@ -1,0 +1,49 @@
+#!/bin/sh
+# 限制单次 push 的累计改动行数：超过上限则拒绝推送。
+# 由 git 在每次 push 前自动运行——无论是 agent、人工还是其他工具发起的。
+# 临时绕过：git push --no-verify
+#
+# stdin 每行格式：<local_ref> <local_sha> <remote_ref> <remote_sha>
+
+LIMIT=${PUSH_LINE_LIMIT:-1000}
+ZERO=0000000000000000000000000000000000000000
+status=0
+
+while read local_ref local_sha remote_ref remote_sha; do
+  # 删除远端分支：local_sha 为全零，跳过。
+  [ "$local_sha" = "$ZERO" ] && continue
+
+  if [ "$remote_sha" = "$ZERO" ]; then
+    # 新分支：取「本地有、所有远端都没有」的提交集合，从最早一个的父提交起算。
+    new_commits=$(git rev-list "$local_sha" --not --remotes)
+    [ -z "$new_commits" ] && continue
+    oldest=$(echo "$new_commits" | tail -n 1)
+    if git rev-parse -q --verify "${oldest}^" >/dev/null 2>&1; then
+      range="${oldest}^..${local_sha}"
+    else
+      range="$local_sha"   # 根提交，无父，diff 整个历史
+    fi
+  else
+    # 已有分支：只看远端尚未拥有的提交。
+    range="${remote_sha}..${local_sha}"
+  fi
+
+  total=$(git diff --numstat $range | awk '
+    { if ($1 != "-") added += $1; if ($2 != "-") deleted += $2 }
+    END { print added + deleted + 0 }
+  ')
+
+  if [ "$total" -gt "$LIMIT" ]; then
+    echo "" >&2
+    echo "✗ push 到 ${remote_ref} 的累计改动 ${total} 行，超过上限 ${LIMIT} 行。" >&2
+    echo "" >&2
+    echo "  请分批推送，先推送较早的提交（累计 < ${LIMIT} 行），再推送其余：" >&2
+    echo "    git push origin <commit-sha>:${remote_ref#refs/heads/}" >&2
+    echo "" >&2
+    echo "  确需绕过本次检查：git push --no-verify" >&2
+    echo "" >&2
+    status=1
+  fi
+done
+
+exit $status

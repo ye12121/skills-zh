@@ -1,0 +1,27 @@
+#!/bin/sh
+# 限制单次提交的改动行数：超过上限则拒绝提交。
+# 由 git 在每次 commit 前自动运行——无论是 agent、人工还是其他工具发起的。
+# 临时绕过：git commit --no-verify
+
+LIMIT=${COMMIT_LINE_LIMIT:-1000}
+
+# 统计已暂存改动的「新增 + 删除」行数（二进制文件 numstat 为 "-"，跳过）。
+total=$(git diff --cached --numstat | awk '
+  { if ($1 != "-") added += $1; if ($2 != "-") deleted += $2 }
+  END { print added + deleted + 0 }
+')
+
+if [ "$total" -gt "$LIMIT" ]; then
+  echo "" >&2
+  echo "✗ 本次提交改动 ${total} 行，超过上限 ${LIMIT} 行。" >&2
+  echo "" >&2
+  echo "  请拆分为多个更小的提交，每个 < ${LIMIT} 行：" >&2
+  echo "    • 按文件 / 目录分批：git reset 后逐批 git add <path> && git commit" >&2
+  echo "    • 按代码块分批：git add -p 选择部分 hunk" >&2
+  echo "" >&2
+  echo "  确需绕过本次检查：git commit --no-verify" >&2
+  echo "" >&2
+  exit 1
+fi
+
+exit 0
