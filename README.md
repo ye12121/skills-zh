@@ -11,7 +11,6 @@
 
 如果你想了解这些 skills 的更新，以及我创建的任何新 skills，可以加入约 6 万其他开发者订阅我的 newsletter：
 
-[订阅 Newsletter](https://www.aihero.dev/s/skills-newsletter)
 
 ## 快速开始（30 秒安装）
 
