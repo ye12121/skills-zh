@@ -228,6 +228,7 @@ cp -r skills/misc/limit-commit-size .agents/skills/limit-commit-size
 
 我每天用于代码工作的 skills。
 
+- **[align-before-coding](./skills/engineering/align-before-coding/SKILL.md)** — 动手写代码前先和你对齐「目标」与「实现思路」：先读累积的「对齐日志」（取历史经验、接续未完成项）→ 读真实代码 → 产出可确认的对齐卡（目标 / 验收 / 范围内外 / 思路 / 落点 / 待澄清），提问都带可选项，未明确放行前不写一行代码；结束时把状态与遗留问题写回日志以便续作。防止 agent 自由发挥跑偏。
 - **[diagnose](./skills/engineering/diagnose/SKILL.md)** — 针对疑难 bug 和性能回归的有纪律诊断循环：重现 → 最小化 → 提出假设 → 加埋点 → 修复 → 回归测试。
 - **[grill-with-docs](./skills/engineering/grill-with-docs/SKILL.md)** — 盘问环节，对照已有领域模型质疑你的计划，磨练术语，并就地更新 `CONTEXT.md` 和 ADR。
 - **[triage](./skills/engineering/triage/SKILL.md)** — 通过分诊角色的状态机对 Issue 进行分诊。
