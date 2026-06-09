@@ -72,27 +72,84 @@ git restore --staged _big.txt && rm _big.txt
 
 ## Agent 工作流：如何拆分
 
-钩子负责「把关并拒绝」；真正的拆分要由发起提交的人或 agent 完成。agent 在提交前应主动按下面的方式保证每份 < 1000 行，避免撞上钩子。
+钩子负责「把关并拒绝」；真正的拆分要由发起提交的人或 agent 完成。
 
-**提交前自检改动行数：**
+### ⚠️ 两条铁律（最常见的错误）
+
+1. **绝不把一个源码文件物理拆成多个文件**（如 `service_part1.py`、`service_part2.py`）来凑行数——这会产生毫无意义、无法运行的代码。行数上限的目的是「让每个提交是一个小而可审阅的逻辑单元」，不是把文件剁碎。
+2. **`git add -p` 对全新（未跟踪）文件不起作用。** 它会报 `No changes`；即使先 `git add -N`，整个新文件也会变成「一个无法 split 的 hunk」。所以对全新大文件**不要指望 `git add -p` 分块**——见下方专门方案。
+
+### 第一步：判断超限的原因
 
 ```bash
+# 看本次暂存改动总行数
 git diff --cached --numstat | awk '{if($1!="-")a+=$1; if($2!="-")d+=$2} END{print a+d+0}'
+# 看是哪些文件、各自多少行
+git diff --cached --numstat
 ```
 
-**超过 1000 行时，拆成多个提交：**
+注意：钩子量的是**改动行数（diff）**，不是文件总长。在 5000 行的老文件里只改 5 行 → 只算 5 行，不会被拦。
 
-1. **优先按逻辑边界拆**——一个功能点 / 一个目录 / 一类改动算一份，而不是机械按行切。
-2. 取消整体暂存后分批提交：
-   ```bash
-   git reset                      # 保留工作区改动，清空暂存
-   git add path/to/group-a        # 第一份
-   git commit -m "..."            # 钩子会校验这份 < 1000 行
-   git add path/to/group-b        # 第二份
-   git commit -m "..."
-   ```
-3. 单个文件本身就超 1000 行时，用 `git add -p` 按 hunk 分批暂存、分多次提交。
-4. 每份提交后，钩子会再次校验；如仍超限，继续细分。
+### 第二步：按场景选择拆分方式
+
+#### 场景 A：改动分散在**多个文件** → 按逻辑分组提交（最常见）
+
+```bash
+git reset                                   # 保留工作区，清空暂存
+git add src/auth/                           # 第一组：一个功能/目录/一类改动
+git commit -m "feat: auth module"           # 钩子校验这份 < 1000 行
+git add src/api/ && git commit -m "feat: api endpoints"
+git add tests/   && git commit -m "test: coverage"
+```
+
+要点：按**意义**分组（一个功能点、一个目录、一类改动），而不是机械按行数切。
+
+#### 场景 B：改动集中在**一个已跟踪的老文件**上 → 用 `git add -p`
+
+老文件是已跟踪的，`git add -p` 能正常按 hunk 分块：
+
+```bash
+git add -p path/to/existing_file.py   # 交互式选择：y 暂存 / n 跳过 / s 再切细
+git commit -m "refactor: part 1"
+git add -p path/to/existing_file.py   # 暂存剩余 hunk
+git commit -m "refactor: part 2"
+```
+
+#### 场景 C：**一个全新文件**单次新增就超限 → 用随附脚本
+
+这是你最容易卡住的场景（`git add -p` 在此无效）。本 skill 自带脚本 `scripts/commit-large-file.sh`，用 `git apply --cached` 按行范围分块提交：**不拆成多个文件、不改动工作区、最终内容与工作区逐字节一致**，只是历史上分了几个提交。
+
+```bash
+# 文件已存在于工作区（未提交），运行：
+sh <此skill>/scripts/commit-large-file.sh path/to/big_new_file.py 1000
+```
+
+它会生成形如下面的提交历史，每个都 < 1000 行：
+
+```
+big_new_file.py: 第 1-900 行 / 共 2500 行
+big_new_file.py: 第 901-1800 行 / 共 2500 行
+big_new_file.py: 第 1801-2500 行 / 共 2500 行
+```
+
+> 原理：`git add -p` 不能分块全新文件，但可以用补丁按行范围暂存。
+> 不想用脚本时的等价手法（增量构建，会临时截断工作区文件）：
+> ```bash
+> cp big.py /tmp/full          # 备份完整内容
+> head -900 /tmp/full > big.py && git add big.py && git commit -m "part 1/3"
+> head -1800 /tmp/full > big.py && git add big.py && git commit -m "part 2/3"
+> cp /tmp/full big.py && git add big.py && git commit -m "part 3/3"   # 恢复完整
+> ```
+
+#### 场景 D：文件**本就不该拆**（生成代码 / lockfile / 压缩产物 / 数据 / 快照）→ 直接放行
+
+硬拆这类文件毫无意义。用逃生口并在提交信息里写明原因：
+
+```bash
+git commit --no-verify -m "chore: regenerate pnpm-lock.yaml (generated, not split)"
+```
+
+### 第三步：每次提交后钩子会再校验，仍超限就继续细分。
 
 **推送同理——累计超 1000 行时分批 push：**
 
