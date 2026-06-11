@@ -209,6 +209,7 @@ cp -r skills/misc/limit-commit-size .agents/skills/limit-commit-size
 
 - [`setup-pre-commit`](./skills/misc/setup-pre-commit/SKILL.md) — Husky + lint-staged + 类型检查 + 测试。
 - [`git-guardrails-claude-code`](./skills/misc/git-guardrails-claude-code/SKILL.md) — 拦截危险 git 命令。
+- [`guard-dangerous-ops-claude-code`](./skills/misc/guard-dangerous-ops-claude-code/SKILL.md) — 拦截不可逆的危险操作（rm -rf、sudo、publish 等），致命直拒、其余确认后放行。
 - [`limit-commit-size`](./skills/misc/limit-commit-size/SKILL.md) — 限制每次 commit / push 的改动行数。
 - [`migrate-to-shoehorn`](./skills/misc/migrate-to-shoehorn/SKILL.md)、[`scaffold-exercises`](./skills/misc/scaffold-exercises/SKILL.md) — 特定场景工具。
 
@@ -254,6 +255,7 @@ cp -r skills/misc/limit-commit-size .agents/skills/limit-commit-size
 我留着但很少使用的工具。
 
 - **[git-guardrails-claude-code](./skills/misc/git-guardrails-claude-code/SKILL.md)** — 设置 Claude Code 钩子，在危险 git 命令（push、reset --hard、clean 等）执行之前阻止它们。
+- **[guard-dangerous-ops-claude-code](./skills/misc/guard-dangerous-ops-claude-code/SKILL.md)** — 设置 Claude Code PreToolUse 钩子，在执行前拦截不可逆的危险 Bash 操作：致命的（rm -rf /、写块设备、mkfs）直接拒绝，危险但常见的（rm -rf 某目录、sudo、kill -9、publish、curl|sh 等）弹出确认让用户 double check 后才放行。
 - **[limit-commit-size](./skills/misc/limit-commit-size/SKILL.md)** — 安装 git 钩子，强制每次 commit / push 的改动少于 1000 行，超限即拒绝并提示如何拆分（agent、人工、其他工具一律生效）。
 - **[migrate-to-shoehorn](./skills/misc/migrate-to-shoehorn/SKILL.md)** — 将测试文件从 `as` 类型断言迁移到 @total-typescript/shoehorn。
 - **[scaffold-exercises](./skills/misc/scaffold-exercises/SKILL.md)** — 创建带有章节、问题、解答和讲解的练习目录结构。
